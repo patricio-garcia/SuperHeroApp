@@ -5,20 +5,36 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cl.serlitoral.superheroapp.R
+import androidx.fragment.app.viewModels
+import cl.serlitoral.superheroapp.databinding.FragmentHeroDetailBinding
+import coil.load
 
-class HeroDetailFragment : Fragment() {
+class HeroDetailFragment(id: Int) : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: HeroViewModel by viewModels()
+    private lateinit var binding: FragmentHeroDetailBinding
+    private val heroId = id
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hero_detail, container, false)
+
+        binding = FragmentHeroDetailBinding.inflate(layoutInflater)
+
+        viewModel.getHero(heroId).observe(viewLifecycleOwner, {
+                binding.imgDetail.load(it.images.lg)
+                binding.tvNameDetail.text = "Name: ".plus(it.name)
+                binding.tvIdDetail.text = "ID: ".plus(it.id.toString())
+                binding.tvIntelligence.text = "Intelligence: ".plus(it.powerstats.intelligence.toString())
+                binding.tvStrength.text = "Strength: ".plus(it.powerstats.strength.toString())
+                binding.tvSpeed.text = "Speed: ".plus(it.powerstats.speed.toString())
+                binding.tvDurability.text = "Durability: ".plus(it.powerstats.durability.toString())
+                binding.tvPower.text = "Power: ".plus(it.powerstats.power.toString())
+                binding.tvCombat.text = "Combat: ".plus(it.powerstats.combat.toString())
+        })
+
+        return binding.root
     }
 
 }

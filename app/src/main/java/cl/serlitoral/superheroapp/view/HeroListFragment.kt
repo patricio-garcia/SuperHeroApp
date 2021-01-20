@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import cl.serlitoral.superheroapp.R
 import cl.serlitoral.superheroapp.databinding.FragmentHeroListBinding
-import cl.serlitoral.superheroapp.databinding.HeroListBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class HeroListFragment : Fragment() {
+class HeroListFragment : Fragment(), OnItemClickListener {
 
     private val viewModel: HeroViewModel by viewModels()
     private lateinit var binding: FragmentHeroListBinding
@@ -24,8 +26,11 @@ class HeroListFragment : Fragment() {
     ): View? {
 
         binding = FragmentHeroListBinding.inflate(layoutInflater)
-        val adapter = HeroAdapter()
+        val adapter = HeroAdapter(this)
+
         binding.rvHeroes.adapter = adapter
+        binding.rvHeroes.layoutManager = GridLayoutManager(this.context, 1)
+        binding.rvHeroes.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
         viewModel.heroes.observe(viewLifecycleOwner, {
             it?.let {
@@ -40,5 +45,17 @@ class HeroListFragment : Fragment() {
 
         return binding.root
     }
+
+    override fun onClick(id: Int) {
+        activity
+                ?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.fmtContainer, HeroDetailFragment(id))
+                ?.addToBackStack("back")
+                ?.commit()
+    }
+
+
+
 
 }

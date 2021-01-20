@@ -11,13 +11,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fmtContainer, HeroListFragment())
+            .replace(R.id.fmtContainer, HeroListFragment())
+            .addToBackStack("back")
             .commit()
+
+        setContentView(binding.root)
     }
 }

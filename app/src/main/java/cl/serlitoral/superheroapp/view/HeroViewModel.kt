@@ -17,12 +17,8 @@ class HeroViewModel: ViewModel() {
         }
     }
 
-    private lateinit var selectedHero: SuperHero
-    fun selected(superHero: SuperHero) {
-        selectedHero = superHero
-    }
 
-    fun getHeroDetail(): LiveData<SuperHero> {
-        return repo.getHeroDetail(selectedHero.id)
+    fun getHero(id: Int): LiveData<SuperHero> {
+        return repo.getHeroDetail(id)
     }
 }

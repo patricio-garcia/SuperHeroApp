@@ -3,16 +3,14 @@ package cl.serlitoral.superheroapp.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import cl.serlitoral.superheroapp.databinding.HeroListBinding
 import cl.serlitoral.superheroapp.model.SuperHero
 import coil.load
 
-class HeroAdapter: RecyclerView.Adapter<HeroVH>() {
+class HeroAdapter(val listener: OnItemClickListener): RecyclerView.Adapter<HeroVH>() {
 
-    private var items = listOf<SuperHero>()
-    private val selectedHero = MutableLiveData<SuperHero>()
+    private var items = mutableListOf<SuperHero>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroVH {
         val binding = HeroListBinding.inflate(LayoutInflater.from(parent.context))
@@ -21,6 +19,9 @@ class HeroAdapter: RecyclerView.Adapter<HeroVH>() {
 
     override fun onBindViewHolder(holder: HeroVH, position: Int) {
         val item = items[position]
+        holder.itemView.setOnClickListener {
+            listener.onClick(item.id)
+        }
         holder.bind(item)
     }
 
@@ -29,12 +30,9 @@ class HeroAdapter: RecyclerView.Adapter<HeroVH>() {
     }
 
     fun update(list: List<SuperHero>) {
-        items = list
+        items.clear()
+        items.addAll(list)
         notifyDataSetChanged()
-    }
-
-    fun selectedHero(): LiveData<SuperHero> {
-        return selectedHero
     }
 }
 
