@@ -6,11 +6,13 @@ import androidx.activity.viewModels
 import cl.serlitoral.superheroapp.databinding.ActivityMainBinding
 import cl.serlitoral.superheroapp.view.HeroAdapter
 import cl.serlitoral.superheroapp.view.HeroViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: HeroViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fabToUp: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,5 +28,10 @@ class MainActivity : AppCompatActivity() {
                 adapter.update(it)
             }
         })
+
+        fabToUp = binding.fabToUp
+        fabToUp.setOnClickListener() {
+            binding.rvHeroes.smoothScrollToPosition(0)
+        }
     }
 }
