@@ -11,6 +11,9 @@ interface HeroDAO {
 
     @Query("SELECT * FROM superhero_table")
     fun getHeroes(): LiveData<List<SuperHero>>
+
+    @Query("SELECT * FROM superhero_table WHERE id=:id")
+    fun getHeroDetail(id: Int): LiveData<SuperHero>
 }
 
 @Database(entities=[SuperHero::class], version=1)

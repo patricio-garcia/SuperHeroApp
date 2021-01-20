@@ -1,11 +1,12 @@
 package cl.serlitoral.superheroapp.model
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 
 class Repo {
 
-    val heroDatabase = HeroApplication.heroDatabase!!
-    val heroList = heroDatabase.heroDao().getHeroes()
+    private val heroDao= HeroApplication.heroDatabase!!.heroDao()
+    val heroList = heroDao.getHeroes()
 
     suspend fun getHeroes() {
 
@@ -15,12 +16,16 @@ class Repo {
 
             true -> {
                 response.body()?.let { heroesList ->
-                heroDatabase.heroDao().insertHero(heroesList)
+                heroDao.insertHero(heroesList)
             }}
 
             false -> {
                 Log.d("Repo", "Error:: ${response.errorBody()}")
             }
         }
+    }
+
+    fun getHeroDetail(id: Int): LiveData<SuperHero> {
+        return heroDao.getHeroDetail(id)
     }
 }

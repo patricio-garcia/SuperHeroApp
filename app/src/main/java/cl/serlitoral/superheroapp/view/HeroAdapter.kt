@@ -2,6 +2,8 @@ package cl.serlitoral.superheroapp.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import cl.serlitoral.superheroapp.databinding.HeroListBinding
 import cl.serlitoral.superheroapp.model.SuperHero
@@ -10,6 +12,7 @@ import coil.load
 class HeroAdapter: RecyclerView.Adapter<HeroVH>() {
 
     private var items = listOf<SuperHero>()
+    private val selectedHero = MutableLiveData<SuperHero>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroVH {
         val binding = HeroListBinding.inflate(LayoutInflater.from(parent.context))
@@ -28,6 +31,10 @@ class HeroAdapter: RecyclerView.Adapter<HeroVH>() {
     fun update(list: List<SuperHero>) {
         items = list
         notifyDataSetChanged()
+    }
+
+    fun selectedHero(): LiveData<SuperHero> {
+        return selectedHero
     }
 }
 
