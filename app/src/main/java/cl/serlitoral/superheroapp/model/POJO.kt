@@ -10,17 +10,17 @@ data class SuperHero(
     val id:Int,
     val name:String,
     val slug:String,
-    @Embedded
+    @Embedded(prefix = "pwr_")
     val powerstats: PowerStats,
-    @Embedded
+    @Embedded(prefix = "app_")
     val appearance: Appearance,
-    @Embedded
+    @Embedded(prefix = "bio_")
     val biography: Biography,
-    @Embedded
+    @Embedded(prefix = "wrk_")
     val work: Work,
-    @Embedded
+    @Embedded(prefix = "con_")
     val connections: Connection,
-    @Embedded
+    @Embedded(prefix = "img_")
     val images: Images
 )
 
